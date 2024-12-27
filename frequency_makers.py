@@ -39,21 +39,23 @@ def frequency_makers():
 
 
 
-    all_text = ""
+    all_sentences = ""
 
     for each_file in (os.listdir("to_open")):
         with open(f"to_open/{each_file}", "r", errors="ignore") as file:
             text = file.read()
 
-            m = r"[^A-Z]+"
-            letters = re.sub(r"[^A-Z]+", " ", text.upper())
+            m = r"[^a-zA-Z]+"
+            dots = re.sub(r"[..]+", " .", text)
+            dots = re.sub(r"[.]+", " .", text)
+            letters = re.sub(r"[^a-zA-Z.]+", " ", dots)
             spacing = re.sub(r"\s+", " ", letters).strip()
 
-            all_text += f"{spacing} "
+            all_sentences += f"{spacing} "
 
 
     # tokenize
-    all_words = all_text.upper().split(" ")
+    all_words = all_sentences.upper().split(" ")
     unique_words, tokens = np.unique(all_words, return_inverse=True)
 
 
@@ -71,6 +73,8 @@ def frequency_makers():
             next_word[current].append((next, times))
         except:
             next_word[current] = [(next, times)]
+
+
 
 
     #print(next_word)
@@ -123,3 +127,5 @@ def frequency_makers():
     #print(next_word)
     
     return end_sent_freq, beg_sent_freq, next_word
+
+frequency_makers()
