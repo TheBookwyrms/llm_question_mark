@@ -11,10 +11,10 @@ def main():
     #print(end_sent_freq)
     #for item in next_words.items():
     #    print(item)
-    #paragraph = write_paragraph(1, end_sent_freq, beg_sent_freq, next_word)
+    paragraph = write_paragraph(1, end_sent_freq, beg_sent_freq, next_word)
     end = time.time()
 
-    #print(paragraph)
+    print(paragraph)
     print(end-start)
 
 

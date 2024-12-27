@@ -1,11 +1,12 @@
 import os
 from tqdm import *
+import re
+import numpy as np
 
 
 def frequency_makers():
     end_sent_freq = {}
     beg_sent_freq = {}
-    next_words = {}
 
     for each_file in (os.listdir("to_open")):
         with open(f'to_open/{each_file}', "r", errors='ignore') as file:
@@ -29,10 +30,6 @@ def frequency_makers():
                             beg_sent_freq[word] = 1
                     try:
                         c = words[index+1]
-                        try:
-                            next_words[word].append(words[index+1])
-                        except:
-                            next_words[word] = [words[index+1]]
                     except:
                         try:
                             end_sent_freq[word] += 1
@@ -42,19 +39,56 @@ def frequency_makers():
 
 
 
+    all_text = ""
+
+    for each_file in (os.listdir("to_open")):
+        with open(f"to_open/{each_file}", "r", errors="ignore") as file:
+            text = file.read()
+
+            m = r"[^A-Z]+"
+            letters = re.sub(r"[^A-Z]+", " ", text.upper())
+            spacing = re.sub(r"\s+", " ", letters).strip()
+
+            all_text += f"{spacing} "
+
+
+    # tokenize
+    all_words = all_text.upper().split(" ")
+    unique_words, tokens = np.unique(all_words, return_inverse=True)
+
+
+    # get every possible sequential two-word combinations
+    combinations = np.repeat(tokens, 2)[1:-1].reshape((-1, 2))
+    unique_combinations, counts = np.unique(combinations, axis=0, return_counts=True)
+
     next_word = {}
-    possibilities = list(set(next_words))
+
+    for i in tqdm(zip(unique_words[unique_combinations], counts)):
+        current = str(i[0][0])
+        next = str(i[0][1])
+        times = int(i[1])
+        try:
+            next_word[current].append((next, times))
+        except:
+            next_word[current] = [(next, times)]
+
+
+    #print(next_word)
+
+
+    # next_word = {}
+    # possibilities = list(set(next_words))
 
 
 
 
-    for key in tqdm(next_words):
-        tuples_lst = []
-        for word in (possibilities):
-            a_count = next_words[key].count(word)
-            if a_count != 0:
-                tuples_lst.append((word, a_count))
-        next_word[key] = tuples_lst
+    # for key in tqdm(next_words):
+    #     tuples_lst = []
+    #     for word in (possibilities):
+    #         a_count = next_words[key].count(word)
+    #         if a_count != 0:
+    #             tuples_lst.append((word, a_count))
+    #     next_word[key] = tuples_lst
 
 
 

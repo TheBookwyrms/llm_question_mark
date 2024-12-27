@@ -17,21 +17,27 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
         lst = [d for d in zip(end_probs.keys(), end_probs.values())]
         end_probs[key] = lst[-1][1] + end_sent_freq[key]
     
+    #print(start_probs)
 
     try:
         paragraph = []
         for i in range (x_sentences):
             phrase = []
-            starter = np.random.randint(1, total_starters)
+            try:
+                starter = np.random.randint(1, total_starters)
+            except:
+                starter = 1
             d = -1
             #print(starter)
+            starter -= 1
             while starter != d:
+                starter += 1
                 for kv in (zip(start_probs.keys(), start_probs.values())):
                     if kv[1] == starter:
                         word = kv[0]
                         starter = d
-                if starter != d:
-                    starter += 1
+                #if starter != d:
+                #    starter += 1
                 
             phrase.append(word)
 
@@ -64,6 +70,7 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
                             word_num += 1
                     
                     phrase.append(word)
+                    print()
 
                 except:
                     last_word = True
