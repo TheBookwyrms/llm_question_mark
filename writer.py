@@ -66,8 +66,22 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
             #except:
             #    last_word = True
         
-        phrase = " ".join(phrase)
-        paragraph.append(phrase)
+        #phrase = " ".join(phrase)
+        rs = ''
+        for index, word in enumerate(phrase):
+            if word == ".":
+                rs += "."
+            else:
+                if index == 0:
+                    w_l = [w for w in word]
+                    w_l[0] = w_l[0].upper()
+                    word = "".join(w_l)
+                else:
+                    if word == "i":
+                        word = "I"
+                    word = " "+word
+                rs += word
+        paragraph.append(rs)
     #except:
     #    raise ValueError("no clue what's wrong")
 

@@ -15,6 +15,7 @@ def main():
     #for item in next_words.items():
     #    print(item)
     paragraph = write_paragraph(10, end_sent_freq, beg_sent_freq, next_word)
+    paragraph = " ".join(paragraph)
     end = time.time()
 
     print(paragraph)

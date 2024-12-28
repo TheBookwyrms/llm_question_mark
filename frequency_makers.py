@@ -8,7 +8,7 @@ def frequency_makers():
     end_sent_freq = {}
     beg_sent_freq = {}
 
-    for each_file in (os.listdir("to_open")):
+    for each_file in tqdm(os.listdir("to_open")):
         with open(f'to_open/{each_file}', "r", errors='ignore') as file:
             text = file.read()
 
@@ -68,7 +68,7 @@ def frequency_makers():
 
     next_word = {}
 
-    for i in tqdm(zip(unique_words[unique_combinations], counts)):
+    for i in (zip(unique_words[unique_combinations], counts)):
         current = str(i[0][0])
         next = str(i[0][1])
         times = int(i[1])
