@@ -12,12 +12,15 @@ def frequency_makers():
         with open(f'to_open/{each_file}', "r", errors='ignore') as file:
             text = file.read()
 
-            t = [t if t.upper() in ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", ".", " "] else "." if t.upper() in ["!", "?"] else "" for t in text]
-            text = "".join(t)
+            all_sentences = ""
+            dots = re.sub(r"[..]+", " .", text)
+            dots = re.sub(r"[\n]+", " ", text)
+            line_break = re.sub(r"[.]+", " .", dots)
+            letters = re.sub(r"[^a-zA-Z.]+", " ", line_break)
+            spacing = re.sub(r"\s+", " ", letters).strip()
 
-            b = [text[i] for i in range(len(text)) if text[i] != "\n"]
-            c = "".join(b)
-            phrases = c.split(".")
+            all_sentences += f"{spacing} "
+            phrases = all_sentences.split(".")
             phrases = [phrase for phrase in phrases if phrase != ""]
             for phrase in (phrases):
                 words = phrase.split(" ")
@@ -38,7 +41,6 @@ def frequency_makers():
 
 
 
-
     all_sentences = ""
 
     for each_file in (os.listdir("to_open")):
@@ -47,15 +49,16 @@ def frequency_makers():
 
             m = r"[^a-zA-Z]+"
             dots = re.sub(r"[..]+", " .", text)
-            dots = re.sub(r"[.]+", " .", text)
-            letters = re.sub(r"[^a-zA-Z.]+", " ", dots)
+            dots = re.sub(r"[\n]+", " ", text)
+            line_break = re.sub(r"[.]+", " .", dots)
+            letters = re.sub(r"[^a-zA-Z.]+", " ", line_break)
             spacing = re.sub(r"\s+", " ", letters).strip()
 
             all_sentences += f"{spacing} "
 
 
     # tokenize
-    all_words = all_sentences.upper().split(" ")
+    all_words = all_sentences.lower().split(" ")
     unique_words, tokens = np.unique(all_words, return_inverse=True)
 
 
@@ -73,7 +76,6 @@ def frequency_makers():
             next_word[current].append((next, times))
         except:
             next_word[current] = [(next, times)]
-
 
 
 
