@@ -3,24 +3,7 @@ from collections import OrderedDict
 from tqdm import *
 import time
 
-def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
-    # total_starters = 0
-    # for key in beg_sent_freq:
-    #     total_starters += beg_sent_freq[key]
-
-    # start_probs = OrderedDict([(None, 0)])
-    # for key in beg_sent_freq:
-    #     lst = [d for d in zip(start_probs.keys(), start_probs.values())]
-    #     start_probs[key] = lst[-1][1] + beg_sent_freq[key]
-
-    # end_probs = OrderedDict([(None, 0)])
-    # for key in end_sent_freq:
-    #     lst = [d for d in zip(end_probs.keys(), end_probs.values())]
-    #     end_probs[key] = lst[-1][1] + end_sent_freq[key]
-    
-    #print(start_probs)
-
-    #try:
+def write_paragraph(x_sentences, next_word):
     paragraph = []
     for i in range (x_sentences):
         phrase = []
@@ -36,7 +19,6 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
         last_word = False
 
         while last_word == False:
-            #try:
             try:
                 possibilities = next_word[phrase[-1].lower()]
                 prev = phrase[-1]
@@ -50,7 +32,6 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
                 word_num = 1
 
             d = -1
-            #print(word_num)
             while word_num != d:
                 for kv in word_probs[prev]:
                     if kv[1] == word_num:
@@ -63,10 +44,6 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
             if word == ".":
                 last_word = True
 
-            #except:
-            #    last_word = True
-        
-        #phrase = " ".join(phrase)
         rs = ''
         for index, word in enumerate(phrase):
             if word == ".":
@@ -82,8 +59,5 @@ def write_paragraph(x_sentences, end_sent_freq, beg_sent_freq, next_word):
                     word = " "+word
                 rs += word
         paragraph.append(rs)
-    #except:
-    #    raise ValueError("no clue what's wrong")
-
 
     return paragraph

@@ -26,9 +26,22 @@ def frequency_makers():
     unique_words, tokens = np.unique(all_words, return_inverse=True)
 
 
+
+    three_words = np.empty((len(unique_words)**3, 3), dtype=str)
+    #for i in
+
+
+
     # get every possible sequential two-word combinations
-    combinations = np.repeat(tokens, 2)[1:-1].reshape((-1, 2))
+    a = np.repeat(tokens, 2)
+    b = a[1:-1]
+    print(unique_words[b][:50])
+    combinations = b.reshape((-1, 3))
     unique_combinations, counts = np.unique(combinations, axis=0, return_counts=True)
+    print(tokens.shape, a.shape, b.shape, combinations.shape)
+    for i in zip(unique_words[unique_combinations], counts):
+        #print(i)
+        pass
 
     next_word = {}
 
