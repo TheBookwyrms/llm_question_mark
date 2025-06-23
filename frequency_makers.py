@@ -7,18 +7,29 @@ import numpy as np
 def frequency_makers():
     all_sentences = ""
 
-    for each_file in (os.listdir("to_open")):
-        with open(f"to_open/{each_file}", "r", errors="ignore") as file:
-            text = file.read()
+    def folder_decoder(all_s, folder=os.listdir(os.path.abspath("to_open"))):
+        for each_file in folder:
+            if each_file[-4:] == ".txt":
+                with open(f"to_open/{each_file}", "r", errors="ignore") as file:
+                    text = file.read()
 
-            m = r"[^a-zA-Z]+"
-            dots = re.sub(r"[..]+", " .", text)
-            dots = re.sub(r"[\n]+", " ", text)
-            line_break = re.sub(r"[.]+", " .", dots)
-            letters = re.sub(r"[^a-zA-Z.]+", " ", line_break)
-            spacing = re.sub(r"\s+", " ", letters).strip()
+                    m = r"[^a-zA-Z]+"
+                    dots = re.sub(r"[..]+", " .", text)
+                    dots = re.sub(r"[\n]+", " ", dots)
+                    line_break = re.sub(r"[.]+", " .", dots)
+                    letters = re.sub(r"[^a-zA-Z.]+", " ", line_break)
+                    spacing = re.sub(r"\s+", " ", letters).strip()
 
-            all_sentences += f"{spacing} "
+                    all_s += f"{spacing} "
+            elif "." in each_file:
+                raise ValueError("error: unrecognized file type detected")
+            else:
+                all_s = f'{folder}/{each_file}'
+    
+        return all_s
+    
+    all_sentences = folder_decoder(all_sentences)
+
 
 
     # tokenize

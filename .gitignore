@@ -1,2 +1,8 @@
 *.pyc
-test_my_writings.txt
+
+curated_test_my_writings.txt
+unedited_test_my_writings.txt
+z_my_writing_unincluded
+writing_to_not_include
+
+guide_llm_freqs.py
